@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <title>Gudrs palīgs</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #333;
+    }
+
+    #questionContainer {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      min-width: 280px;
+    }
+
+    #questionText {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kas tev tagad derēs??</h1>
+
+  <div id="questionContainer">
+    <p id="questionText"></p>
+    <div id="answerButtons"></div>
+  </div>
+
+  <script>
+    // objekts ar visiem atbildiem un jautajumiem
+    var jautajumi = {
+      q1: {
+        teksts: "Vai vēlaties būt produktīvs tagad?",
+        atbildes: {
+          "Ja": "q2_prod",
+          "Ne": "q2_fun"
+        }
+      },
+      q2_prod: {
+        teksts: "Kas tev vajadzīgs??",
+        atbildes: {
+        	"Focuss": "https://pomofocus.io/",
+        	"Plānojiet savu dienu": "https://www.notion.com/"
+        }
+      },
+      q2_fun: {
+        teksts: "Vai jums ir daudz laika vai maz?",
+        atbildes: {
+        	"Maz": "q3_short",
+        	"Daudz": "q3_long"
+        }
+      },
+      q3_short: {
+        teksts: "Kāds ir tavs noskaņojums?",
+        atbildes: {
+        	"Noguris": "https://www.youtube.com/watch?v=KuDWifo1q1U",
+			    "Garlaicīgi": "https://ru.y8.com/"
+        }
+      },
+      q3_long: {
+        teksts: "Ko tu vēlies?",
+        atbildes: {
+          	"Noskatīties kaut ko": "https://rezka.ag/films/best/",
+			      "Lasīt kaut ko": "https://www.letonika.lv/literatura/default.aspx"
+        }
+      }
+    };
+
+    var pasreizejaisJautajums = "q1";
+
+    function raditJautajumu() {
+      var jaut = jautajumi[pasreizejaisJautajums];
+
+      if (!jaut) {
+        window.location.href = pasreizejaisJautajums;
+        return;
+      }
+
+      document.getElementById("questionText").textContent = jaut.teksts;
+
+      var atbKonteineris = document.getElementById("answerButtons");
+      atbKonteineris.innerHTML = "";
+
+      for (var teksts in jaut.atbildes) {
+        var poga = document.createElement("button");
+        poga.textContent = teksts;
+
+        poga.onclick = function() {
+          var nakamais = jaut.atbildes[this.textContent];
+          pasreizejaisJautajums = nakamais;
+          raditJautajumu();
+        };
+
+        atbKonteineris.appendChild(poga);
+      }
+    }
+
+    raditJautajumu();
+  </script>
+</body>
+</html>
